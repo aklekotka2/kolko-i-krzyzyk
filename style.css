@@ -1,0 +1,18 @@
+table.table{
+	width: 300px;
+	border: 1px solid green;
+}
+
+table.blink{
+	visibility: hidden;
+}
+td{
+	width: 100px;
+	height: 100px
+}
+.red{
+	background-color: red;
+}
+.green{
+	background-color: green;
+}
