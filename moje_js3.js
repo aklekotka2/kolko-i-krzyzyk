@@ -6,42 +6,7 @@ var main=function(){
 
 
 
-  // function dodajKomunikat(){
-
-  // 	$(this).parent().find('label').remove();
-
-  // 	var lengthInput=0;
-  // 	lengthInput=$(this).val().length;
-
-  //   var etykieta= $('<label class=\'komunikat\'></label>');
-  //   $(this).parent().append( etykieta);
-
-  //   if(lengthInput<=4){
-     
-  //   	//$(this).parent().append( label );
-  //   	etykieta.text('ten tekst jest za krótki');
-  //       //console.log($(this).parent().find('.komunikat').length);
-  //   }
-  //   else if(lengthInput>4)
-  //   {
-    	
-  //   	//$(this).parent().append( label );
-    	
-  //   	etykieta.text('Ok');
-  //   	//$('.komunikat').removeClass('komunikat');
-  //   }
-
-  // }
-
-
-  // input.on('keydown',dodajKomunikat);
-  // pass.on('keydown', dodajKomunikat);
-
- 
-
-  
-
-
+//zdarzenie on submit formularza do logowania
   $('form').on('submit', function(e){
 
      var kolkoImie=$('#kolko').val();
@@ -58,7 +23,8 @@ var main=function(){
     $('#gracz2').append(etykietaKrzyzyk );
     etykietaKrzyzyk.text(krzyzykImie+' - KRZYŻYK - green');
   	
-
+    //po wysłaniu formularza wyświetlane są dane graczy z przyporządkowanym kolorem
+    //usuwany formularz, usuwana klasa blink tabell/planszy do gry - staje się widoczna
     $('form').remove()
     $('.blink').removeClass('blink');
     e.preventDefault();
@@ -66,7 +32,8 @@ var main=function(){
 
   })
 
-
+ //przed kolejną grą po wygranej, po kliknięciu napis dot. kontynuacji gry,
+ // usuwane są zaznaczenia pól tabeli, usuwane pytanie o kontynuacji gry
    $('#pytanie').on('click', function(e){
      $('td').removeClass('red');
      $('td').removeClass('green');
@@ -83,16 +50,9 @@ var main=function(){
     e.preventDefault();
   })
 
-  // var wygrana=[];
-  // wygrana[0]=[1,2,3];
-  // wygrana[1]=[4,5,6];
-  // wygrana[2]=[7,8,9];
-  // wygrana[3]=[1,4,7];
-  // wygrana[4]=[2,5,8];
-  // wygrana[5]=[3,6,9];
-  // wygrana[6]=[1,5,9];
-  // wygrana[7]=[3,5,7];
-
+  
+//sprawdzenie statusu gry, argumenty to tabela, która zawiera wstawione przez gracza pola
+//oraz znak, którym posługuje się dany gracz
  function checkGame(tabela,znak){
   
   var tmp_prawyskos=[];
@@ -101,9 +61,13 @@ var main=function(){
   var dl=tabela.length;
 
   //badanie rzędów
+  //sprawdzamy ilość rzędów w tabeli dwuwymiarowej
   for(var r=0; r<tabela.length;r++){
     //tmp - tabela pomocnicza do badania rzędów
     var tmp=[]; 
+    //sprawdzamy po kolei każdy z rzędów, jeśli któryś z elemetów tabeli jest poszukiwanym znakiem,
+    //to znak wstawiamy do tabeli pomocniczej
+    //jeśli ilość elemntów tabeli pomocniczej będzie równa długości rzędu mamy wygraną
     for(var c=tabela[r].length;c>=0;c--){
        
        if(tabela[r][c]===znak){
@@ -117,6 +81,8 @@ var main=function(){
 
 
       //skos prawy
+      //prawy skos zawiera elementy, które mają taki sam x i y
+      // ilość elementów skosu jest równa ilości rzędów w tabeli
        if(tabela[r][r]===znak){
          tmp_prawyskos.push(znak);
         if((tmp_prawyskos.length)===(tabela.length)){
@@ -126,6 +92,9 @@ var main=function(){
        }  
 
        //skos lewy
+       //lewy skos , najniższy element ma współrzędne x=rząd, y=długość tabeli-1
+       //zmienna dl oznacająca długośc tabeli jest po każdym przejściu rzędu zmiejszana o 1
+
          if(tabela[r][dl-1]===znak){
            tmp_lewyskos.push(znak);
            console.log(tmp_lewyskos);
@@ -140,6 +109,7 @@ var main=function(){
 
 
   //badanie kolumn
+  //badanie pionów robimy analogicznie do poziomów
    for(var m=0; m<tabela[0].length;m++){
     var tmp_pion=[];
     for(var n=0;n<tabela.length;n++){
@@ -162,6 +132,7 @@ var main=function(){
 
   
   var i=0;
+  //definicja tabeli do gry
   var table=[
        [null,null,null],
        [null,null,null],
@@ -171,22 +142,30 @@ var main=function(){
  
   var koniecGry=false;
 
+
+  //po kliknięciu w pole tabeli/planszy
   $('.klik').on('click',function(){
    
-
+    //sprawdzamy, które to pole na podstawie atrybutu id komórki
     var field=($(this).attr('id'));
     console.log(field);
-
+    
+    //określamy współrzędne pola na podstawie atrybutu id
     var y=(field.slice(0,1)-1);
     var x=(field.slice(1,2)-1);
 
  
     var znak;
+
+    //sprawdzamy, czy nie mamy już końca gry
+    //sprawdzamy, czy pole w naszzej tabeli jest na pewno puste
      
      if(koniecGry===false)
      {
       if(table[y][x]===null){
 
+           //jeśli kliknięcie jest parzyste to zaznaczamy pole kolorem czerwonym
+           //jeśli nieparzyste to zielonym
             if(i%2===0){
               znak='red';
               table[y][x]='red';
@@ -198,11 +177,21 @@ var main=function(){
                $(this).addClass('green');
             }
   
+
+            //po każdym kliknięciu sprawdzamy status gry
+            //jesli funkcja zwraca wartośc true oznacza to wygraną jednego z graczy
+            //zmienna koniecGry ustawiana jest na true
             if(checkGame(table,znak))
             {
               var wynikGry= $('<p class="text-center" id=\'wynikGry\'></p>');
                   $('#wynik').append(wynikGry);
                    wynikGry.text('WYGRANA: '+znak);
+
+                   var pytanie= $('<p class="text-center"></p>');
+                  $('#pytanie').append(pytanie);
+                   pytanie.text('Zagraj ponownie');
+
+          alert('Koniec');
               koniecGry=true;
             }
             i++;
@@ -211,13 +200,14 @@ var main=function(){
            console.log('to zajęte pole!!!');
           }
         }
-        else{ 
-           var pytanie= $('<p class="text-center"></p>');
-                  $('#pytanie').append(pytanie);
-                   pytanie.text('Zagraj ponownie');
-          alert('Koniec');
+        
+        // else{ 
+        //    var pytanie= $('<p class="text-center"></p>');
+        //           $('#pytanie').append(pytanie);
+        //            pytanie.text('Zagraj ponownie');
+        //   alert('Koniec');
 
-        }
+        // }
    
   
   });
