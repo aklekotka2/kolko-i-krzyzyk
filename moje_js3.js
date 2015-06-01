@@ -188,16 +188,28 @@ var main=function(){
                    wynikGry.text('WYGRANA: '+znak);
 
                    var pytanie= $('<p class="text-center"></p>');
-                  $('#pytanie').append(pytanie);
-                   pytanie.text('Zagraj ponownie');
+                   $('#pytanie').append(pytanie);
+                   pytanie.text('Zagraj ponownie.');
 
-          alert('Koniec');
-              koniecGry=true;
+                   alert('Koniec');
+                   koniecGry=true;
             }
             i++;
           }
-      else{
-           console.log('to zajęte pole!!!');
+      else{ 
+           if(i>8){
+                   var pytanie= $('<p class="text-center"></p>');
+                   $('#pytanie').append(pytanie);
+                   pytanie.text('Brak wygranej! Zagraj ponownie.');
+
+                   alert('Koniec');
+                   koniecGry=true;
+
+           }
+           else
+           {
+           alert ('To zajęte pole!!! Wybierz inne.');
+           }
           }
         }
         
