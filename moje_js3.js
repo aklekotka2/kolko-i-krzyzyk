@@ -197,6 +197,7 @@ var main=function(){
             i++;
           }
       else{ 
+           //nie wiem, czy da się sprawdzać ilość elementów w tabeli wielowymiarowej 
            if(i>8){
                    var pytanie= $('<p class="text-center"></p>');
                    $('#pytanie').append(pytanie);
