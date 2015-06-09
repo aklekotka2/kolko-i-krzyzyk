@@ -18,10 +18,10 @@ var main=function(){
     var etykietaKrzyzyk= $('<p class="text-center" id=\'krzyzyk\'></p>');
      
     $('#gracz1').append(etykietaKolko );
-    etykietaKolko.text(kolkoImie+' - KÓŁKO - red');
+    etykietaKolko.text('Gracz 1 '+kolkoImie+' - KÓŁKO - red');
 
     $('#gracz2').append(etykietaKrzyzyk );
-    etykietaKrzyzyk.text(krzyzykImie+' - KRZYŻYK - green');
+    etykietaKrzyzyk.text('Gracz 2 '+krzyzykImie+' - KRZYŻYK - green');
   	
     //po wysłaniu formularza wyświetlane są dane graczy z przyporządkowanym kolorem
     //usuwany formularz, usuwana klasa blink tabell/planszy do gry - staje się widoczna
