@@ -1,3 +1,4 @@
+// Hello
 var main=function(){
   $('input').focus(function(){
 
@@ -74,7 +75,7 @@ var main=function(){
         tmp.push(znak);
         if((tmp.length)===(tabela[r].length)){
           console.log('wygrana pozioma'+znak);
-          return true
+          return true;
         }
        }
      } 
